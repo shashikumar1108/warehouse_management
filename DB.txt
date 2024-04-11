@@ -1,0 +1,101 @@
+ALTER TABLE `invoice` ADD `vendor_quote_id` INT(11) NOT NULL DEFAULT '0' AFTER `quotation_id`;
+
+CREATE TABLE `invoice_history` (
+  `id` int(11) NOT NULL,
+  `invoice_id` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `payment_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `invoice_history`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `invoice_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+ALTER TABLE `invoice_history` CHANGE `payment_date` `payment_date` DATETIME NOT NULL; 
+
+ALTER TABLE `vendor_quotation` ADD `old_grand_wholesale_price` INT(11) NOT NULL DEFAULT '0' AFTER `supplier_id`, ADD `old_grand_retail_price` INT(11) NOT NULL DEFAULT '0' AFTER `old_grand_wholesale_price`;
+
+ALTER TABLE `vendor_quotation_details` ADD `status` TINYINT(1) NOT NULL DEFAULT '0' COMMENT '0->pending 1->approved 2->unapproved' AFTER `stock_status`; 
+
+CREATE TABLE `vendor_quotation_approved_details` (
+  `vqad_id` int(11) NOT NULL,
+  `vendor_quote_id` int(11) NOT NULL,
+  `quotation_product_id` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `free_quantity` int(11) NOT NULL DEFAULT 0,
+  `breakage_qty` int(11) NOT NULL,
+  `total_qty` int(11) NOT NULL,
+  `brand_id` int(11) NOT NULL,
+  `wholesale_price` int(11) NOT NULL,
+  `w_total_amount` int(11) NOT NULL,
+  `w_cgst` int(11) NOT NULL,
+  `w_sgst` int(11) NOT NULL,
+  `w_igst` int(11) NOT NULL,
+  `w_tax_amount` int(11) NOT NULL,
+  `w_tax_type` int(11) NOT NULL COMMENT '0 => excusive, 1 =>inclusive',
+  `total_wholesale_price` int(11) NOT NULL,
+  `reduced_wh_amount` int(11) NOT NULL,
+  `total_wh_amount` int(11) NOT NULL,
+  `retail_price` int(11) NOT NULL,
+  `r_total_amount` int(11) NOT NULL,
+  `r_cgst` int(11) NOT NULL,
+  `r_sgst` int(11) NOT NULL,
+  `r_igst` int(11) NOT NULL,
+  `r_tax_amount` int(11) NOT NULL,
+  `r_tax_type` int(11) NOT NULL COMMENT '0 => excusive, 1 =>inclusive',
+  `total_retail_price` int(11) NOT NULL,
+  `reduced_rp_amount` int(11) NOT NULL,
+  `total_rp_amount` int(11) NOT NULL,
+  `stock_status` int(11) NOT NULL COMMENT '1=>stock placed'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `vendor_quotation_approved_details`
+  ADD PRIMARY KEY (`vqad_id`);
+
+ALTER TABLE `vendor_quotation_approved_details`
+  MODIFY `vqad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+
+ALTER TABLE `vendor_quotation_approved_details` ADD `quote_qty` INT(11) NOT NULL DEFAULT '0' AFTER `breakage_qty`;
+ALTER TABLE `vendor_quotation_approved_details` ADD `status` TINYINT(1) NOT NULL AFTER `stock_status`;
+ALTER TABLE `vendor_quotation_approved_details` ADD `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `stock_status`;
+
+
+Admin portal logins
+http://localhost/dev/account
+admin@admin.com
+password
+
+Warehouse portal logins
+Chennai Warehouse
+http://localhost/dev/warehouses
+Chennai Warehouse
+wadmin@admin.com
+password
+
+Bangalore Warehouse
+bangalorewadmin@admin.com
+password
+
+Supplier portal logins
+http://localhost/dev/supplier
+abcsupplier@admin.com
+password
+
+xyzsupplier@admin.com
+password
+
+Account portal logins
+http://localhost/dev/account
+account@admin.com
+password
+
+
+Features Updated
+1) Warehouse/account/supplier based portals created with profile management
+2) Multiple vendor quotes for warehouse quotes are added
+3) Supplier portal accounting added
+

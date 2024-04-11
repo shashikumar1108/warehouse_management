@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="<?=asset_url()?>/chromaTemplate/vendors/icheck/skins/all.css">
+<?php $this->load->view('template/header.php'); ?>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <?php 
+    $this->load->view('template/dash_h_n.php');
+    ?>
+      
+      <!-- partial -->
+      <!-- partial:../../partials/_sidebar.html -->
+      
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="card">
+            <div class="card-body">
+
+            <?php if($this->session->flashdata('status') == 'success' 
+            || $this->session->flashdata('status') == 'fail') {
+                
+                if($this->session->flashdata('status') == 'success'){
+                    $color='green';
+                }else{                    
+                    $color='red';
+                }
+             // echo "hi";
+              echo "<b style='color:".$color."'>".$this->session->flashdata('message')."</b>";
+              echo "<br><br>";  
+            
+            }
+              
+              ?>
+ 
+            
+            <?php 
+            
+            $warehouses = $this->db->select('id, name')->from('warehouse')->where('delete_status',0)->get()->result_array();
+
+            ?>
+
+              <span class="card-title">Products</span><br><br><br>
+              <div class="row">
+                <div class="col-12 table-responsive">
+                  <table id="order-listing" class="table">
+                    <thead>
+                      <tr>
+                        <th>Sl #</th>
+                        <th>Name</th>
+                        <th>Category</th>                        
+                        <th>Sub Category One</th>
+                        <th>Sub Category Two</th>
+                        <!-- <th>Supplier</th>                        -->
+                        <th>Description</th>
+                                            
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    <?php $i = 0;                    
+                        foreach($products as $p){ 
+                            $i++;                         
+                            ?>
+                            <tr>
+                                <td><?php echo $i ?></td>
+                                <td><?php echo $p['name'] ?></td>   
+                                <td><?php echo $p['category_name'] ?></td>
+                                <td><?php echo $p['sub_category_one_name'] ?></td>
+                                <td><?php echo $p['sub_category_two_name'] ?></td>                                
+                                <!-- <td><?php echo $p['first_name'].' '.$p['last_name'] ?></td> -->
+                                <td><?php echo $p['description'] ?></td>                                                                                     
+                            </tr>
+                    <?php } ?>
+                     
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends --><!-- Modal starts -->
+                  
+                  
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="<?=asset_url()?>chromaTemplate/vendors/js/vendor.bundle.base.js"></script>
+  <script src="<?=asset_url()?>chromaTemplate/vendors/js/vendor.bundle.addons.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="<?=asset_url()?>chromaTemplate/js/off-canvas.js"></script>
+  <script src="<?=asset_url()?>chromaTemplate/js/hoverable-collapse.js"></script>
+  <script src="<?=asset_url()?>chromaTemplate/js/misc.js"></script>
+  <script src="<?=asset_url()?>chromaTemplate/js/settings.js"></script>
+  <script src="<?=asset_url()?>chromaTemplate/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="<?=asset_url()?>chromaTemplate/js/data-table.js"></script>
+  <!-- End custom js for this page-->
+  <script src="<?=asset_url()?>chromaTemplate/js/select2.js"></script>
+  <script src="<?=asset_url()?>chromaTemplate/js/iCheck.js"></script>
+</body>
+
+</html>
+
+
+  
+  
